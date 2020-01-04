@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.h2t.study.dao.FilesMapper">
+  <resultMap id="BaseResultMap" type="com.h2t.study.po.FilesPO">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="save_path" jdbcType="VARCHAR" property="savePath" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <parameterMap id="FilesPO" type="com.h2t.study.po.FilesPO"/>
+
+  <sql id="Base_Column_List">
+    id, name, save_path, gmt_create, gmt_modified
+  </sql>
+
+    <insert id="saveFiles" parameterMap="FilesPO">
+        insert into files(name, save_path) values(#{name}, #{savePath})
+    </insert>
+
+    <select id="listFilesPO" parameterType="java.lang.Long" resultType="FilesPO">
+        select
+        <include refid="Base_Column_List"/>
+        from files where id = #{id]}
+    </select>
+</mapper>

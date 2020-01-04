@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.h2t.study.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.h2t.study.po.UserPO">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <parameterMap id="UserPO" type="com.h2t.study.po.UserPO"/>
+
+  <sql id="Base_Column_List">
+    id, name, gmt_create, gmt_modified
+  </sql>
+
+  <delete id="removeUser" parameterType="java.lang.Long">
+    delete from user where id = #{id}
+  </delete>
+
+  <insert id="addUser" parameterMap="UserPO">
+    insert into user(name) value (#{name})
+  </insert>
+
+  <update id="updateUserName" parameterMap="UserPO">
+    update user set name = #{name} where id = #{id}
+  </update>
+</mapper>
