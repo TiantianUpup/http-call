@@ -4,11 +4,14 @@ import com.h2t.study.service.FilesService;
 import com.h2t.study.util.ResponseUtil;
 import com.h2t.study.vo.FilesVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 
 /**
- * TODO Description
+ * 文件控制层
  *
  * @author hetiantian
  * @version 1.0
@@ -17,12 +20,21 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/api/files")
 public class FilesController {
+    private final String savePath = "G:\\java工程\\http-call\\upload-file";
     @Resource
     private FilesService filesService;
 
-    @PostMapping
-    public Object saveFiles(@RequestBody FilesVO filesVO) {
-        filesService.saveFiles(filesVO);
+    @PostMapping("/{userId}")
+    public Object saveFiles(@RequestParam("file") MultipartFile multipartFile, @PathVariable Long userId) {
+        File targetFile = new File(String.format("%s%s%s", savePath, File.separator, multipartFile.getOriginalFilename()));
+        try {
+            multipartFile.transferTo(targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(targetFile.getAbsolutePath());
+        filesService.saveFiles(FilesVO.builder().name(multipartFile.getOriginalFilename()).savePath(targetFile.getAbsolutePath()).userId(userId).build());
         return ResponseUtil.success();
     }
 

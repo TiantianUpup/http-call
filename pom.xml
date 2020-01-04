@@ -5,6 +5,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>restful-api</module>
+        <module>okhttp-call</module>
+        <module>httpclient-call</module>
     </modules>
 
     <parent>

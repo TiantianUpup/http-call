@@ -12,16 +12,16 @@
   <parameterMap id="FilesPO" type="com.h2t.study.po.FilesPO"/>
 
   <sql id="Base_Column_List">
-    id, name, save_path, gmt_create, gmt_modified
+    id, user_id, name, save_path, deleted, gmt_create, gmt_modified
   </sql>
 
     <insert id="saveFiles" parameterMap="FilesPO">
-        insert into files(name, save_path) values(#{name}, #{savePath})
+        insert into files(user_id, name, save_path) values(#{userId}, #{name}, #{savePath})
     </insert>
 
     <select id="listFilesPO" parameterType="java.lang.Long" resultType="FilesPO">
         select
         <include refid="Base_Column_List"/>
-        from files where id = #{id]}
+        from files where user_id = #{userId} and deleted = 0
     </select>
 </mapper>

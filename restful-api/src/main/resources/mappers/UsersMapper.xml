@@ -11,12 +11,12 @@
   <parameterMap id="UserPO" type="com.h2t.study.po.UserPO"/>
 
   <sql id="Base_Column_List">
-    id, name, gmt_create, gmt_modified
+    id, name, deleted, gmt_create, gmt_modified
   </sql>
 
-  <delete id="removeUser" parameterType="java.lang.Long">
-    delete from user where id = #{id}
-  </delete>
+    <update id="removeUser" parameterType="java.lang.Long">
+    update user set deleted = 1 where id = #{id}
+  </update>
 
   <insert id="addUser" parameterMap="UserPO">
     insert into user(name) value (#{name})

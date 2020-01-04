@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class StatisticAop {
     private final Logger LOGGER = LoggerFactory.getLogger(StatisticAop.class);
 
-    @Pointcut("execution(* com.h2t.study..*(..))")
+    @Pointcut("execution(* com.h2t.study.controller..*(..))")
     public void pointcut() {
 
     }

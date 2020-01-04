@@ -1,6 +1,5 @@
 package com.h2t.study.controller;
 
-import com.h2t.study.po.UserPO;
 import com.h2t.study.service.UserService;
 import com.h2t.study.util.ResponseUtil;
 import com.h2t.study.vo.UserVO;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * TODO Description
+ * 用户控制层
  *
  * @author hetiantian
  * @version 1.0
