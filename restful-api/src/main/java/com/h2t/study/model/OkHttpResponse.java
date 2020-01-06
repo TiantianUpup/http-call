@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * TODO Description
+ * OkhttpClient响应实体
  *
  * @author hetiantian
  * @version 1.0

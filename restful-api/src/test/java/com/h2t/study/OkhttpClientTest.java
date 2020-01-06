@@ -1,9 +1,7 @@
 package com.h2t.study;
 
 import com.alibaba.fastjson.JSONObject;
-import com.h2t.study.model.OkHttpResponse;
-import com.h2t.study.po.FilesPO;
-import com.h2t.study.util.FastjsonUtil;
+import com.h2t.study.vo.UserVO;
 import okhttp3.*;
 import org.junit.After;
 import org.junit.Before;
@@ -11,10 +9,9 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
- * TODO Description
+ * OkhttpClient测试
  *
  * @author hetiantian
  * @version 1.0
@@ -58,10 +55,9 @@ public class OkhttpClientTest {
         String url = String.format("%s%s", baseUrl, api);
         OkHttpClient client = new OkHttpClient();
         //请求参数
-        JSONObject json = new JSONObject();
-        json.put("name", "h2t");
-        json.put("id", 1);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(json));
+        UserVO userVO = UserVO.builder().name("h2t").id(11L).build();
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                JSONObject.toJSONString(userVO));
         Request request = new Request.Builder()
                 .url(url)
                 .put(requestBody)
@@ -73,7 +69,7 @@ public class OkhttpClientTest {
 
     @Test
     public void testDelete() throws IOException {
-        String api = "/api/user/2";
+        String api = "/api/user/7";
         String url = String.format("%s%s", baseUrl, api);
         OkHttpClient client = new OkHttpClient();
         //请求参数
@@ -117,13 +113,11 @@ public class OkhttpClientTest {
                 .build();
         final Call call = client.newCall(request);
         Response response = call.execute();
-        //System.out.println(response.body().string());
-        OkHttpResponse okHttpResponse = FastjsonUtil.deserializeToObj(response.body().string(), OkHttpResponse.class);
-        List<FilesPO> filesPOS = FastjsonUtil.deserializeToList(okHttpResponse.getData().toString(), FilesPO.class);
-        for (FilesPO filesPO : filesPOS) {
-            System.out.println(filesPO);
-        }
+        System.out.println(response.body().string());
+//        OkHttpResponse okHttpResponse = FastjsonUtil.deserializeToObj(response.body().string(), OkHttpResponse.class);
+//        List<FilesPO> filesPOS = FastjsonUtil.deserializeToList(okHttpResponse.getData().toString(), FilesPO.class);
+//        for (FilesPO filesPO : filesPOS) {
+//            System.out.println(filesPO);
+//        }
     }
-
-
 }
