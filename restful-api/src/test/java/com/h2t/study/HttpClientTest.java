@@ -27,7 +27,9 @@ import java.io.IOException;
  * @Date 2020/01/06 15:23
  */
 public class HttpClientTest {
-    private final String baseUrl = "http://localhost:8082";
+    private final String BASE_URL = "http://localhost:8082";
+    private CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
     long start;
 
     @Before
@@ -43,8 +45,7 @@ public class HttpClientTest {
     @Test
     public void testPost() throws IOException {
         String api = "/api/user";
-        String url = String.format("%s%s", baseUrl, api);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        String url = String.format("%s%s", BASE_URL, api);
         HttpPost httpPost = new HttpPost(url);
         UserVO userVO = UserVO.builder().name("h2t2").build();
         httpPost.setHeader("Content-Type", "application/json;charset=utf8");
@@ -56,8 +57,7 @@ public class HttpClientTest {
     @Test
     public void testPut() throws IOException {
         String api = "/api/user";
-        String url = String.format("%s%s", baseUrl, api);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        String url = String.format("%s%s", BASE_URL, api);
         HttpPut httpPut = new HttpPut(url);
         UserVO userVO = UserVO.builder().name("h2t").id(16L).build();
         httpPut.setHeader("Content-Type", "application/json;charset=utf8");
@@ -69,8 +69,7 @@ public class HttpClientTest {
     @Test
     public void testDelete() throws IOException {
         String api = "/api/user/12";
-        String url = String.format("%s%s", baseUrl, api);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        String url = String.format("%s%s", BASE_URL, api);
         HttpDelete httpDelete = new HttpDelete(url);
         CloseableHttpResponse response = httpClient.execute(httpDelete);
         System.out.println(EntityUtils.toString(response.getEntity()));
@@ -79,8 +78,7 @@ public class HttpClientTest {
     @Test
     public void testUpload1() throws IOException {
         String api = "/api/files/1";
-        String url = String.format("%s%s", baseUrl, api);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        String url = String.format("%s%s", BASE_URL, api);
         HttpPost httpPost = new HttpPost(url);
         File file = new File("C:/Users/hetiantian/Desktop/学习/docker_practice.pdf");
         FileBody fileBody = new FileBody(file);
@@ -93,11 +91,11 @@ public class HttpClientTest {
         System.out.println(EntityUtils.toString(response.getEntity()));
     }
 
+
     @Test
     public void testUpload2() throws IOException {
         String api = "/api/files/1";
-        String url = String.format("%s%s", baseUrl, api);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        String url = String.format("%s%s", BASE_URL, api);
         HttpPost httpPost = new HttpPost(url);
         File file = new File("C:/Users/hetiantian/Desktop/学习/docker_practice.pdf");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -114,11 +112,9 @@ public class HttpClientTest {
     @Test
     public void testGet() throws IOException {
         String api = "/api/files/1";
-        String url = String.format("%s%s", baseUrl, api);
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        String url = String.format("%s%s", BASE_URL, api);
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse response = httpClient.execute(httpGet);
         System.out.println(EntityUtils.toString(response.getEntity()));
     }
-
 }

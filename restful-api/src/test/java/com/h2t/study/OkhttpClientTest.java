@@ -18,7 +18,8 @@ import java.io.IOException;
  * @Date 2020/01/06 11:00
  */
 public class OkhttpClientTest {
-    private final String baseUrl = "http://localhost:8082";
+    private final String BASE_URL = "http://localhost:8082";
+    private OkHttpClient client = new OkHttpClient();
     long start;
 
     @Before
@@ -34,8 +35,7 @@ public class OkhttpClientTest {
     @Test
     public void testPost() throws IOException {
         String api = "/api/user";
-        String url = String.format("%s%s", baseUrl, api);
-        OkHttpClient client = new OkHttpClient();
+        String url = String.format("%s%s", BASE_URL, api);
         //请求参数
         JSONObject json = new JSONObject();
         json.put("name", "hetiantian");
@@ -52,8 +52,7 @@ public class OkhttpClientTest {
     @Test
     public void testPut() throws IOException {
         String api = "/api/user";
-        String url = String.format("%s%s", baseUrl, api);
-        OkHttpClient client = new OkHttpClient();
+        String url = String.format("%s%s", BASE_URL, api);
         //请求参数
         UserVO userVO = UserVO.builder().name("h2t").id(11L).build();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
@@ -70,8 +69,7 @@ public class OkhttpClientTest {
     @Test
     public void testDelete() throws IOException {
         String api = "/api/user/7";
-        String url = String.format("%s%s", baseUrl, api);
-        OkHttpClient client = new OkHttpClient();
+        String url = String.format("%s%s", BASE_URL, api);
         //请求参数
         Request request = new Request.Builder()
                 .url(url)
@@ -85,8 +83,7 @@ public class OkhttpClientTest {
     @Test
     public void testUpload() throws IOException {
         String api = "/api/files/1";
-        String url = String.format("%s%s", baseUrl, api);
-        OkHttpClient client = new OkHttpClient();
+        String url = String.format("%s%s", BASE_URL, api);
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "docker_practice.pdf",
@@ -102,11 +99,11 @@ public class OkhttpClientTest {
         System.out.println(response.body().string());
     }
 
+
     @Test
     public void testGet() throws IOException {
         String api = "/api/files/1";
-        String url = String.format("%s%s", baseUrl, api);
-        OkHttpClient client = new OkHttpClient();
+        String url = String.format("%s%s", BASE_URL, api);
         Request request = new Request.Builder()
                 .url(url)
                 .get()  //默认为GET请求，可以不写
