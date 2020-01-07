@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * OkhttpClient测试
@@ -19,7 +20,12 @@ import java.io.IOException;
  */
 public class OkhttpClientTest {
     private final String BASE_URL = "http://localhost:8082";
-    private OkHttpClient client = new OkHttpClient();
+    //    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)//设置连接超时时间
+            .readTimeout(60, TimeUnit.SECONDS)//设置读取超时时间
+            .build();
+
 
     long start;
 
@@ -140,6 +146,6 @@ public class OkhttpClientTest {
             }
         }
 
-        System.out.println(response.body());
+        System.out.println(response.body().string());
     }
 }
