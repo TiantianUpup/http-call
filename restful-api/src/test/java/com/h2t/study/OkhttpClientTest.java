@@ -55,7 +55,7 @@ public class OkhttpClientTest {
         String api = "/api/user";
         String url = String.format("%s%s", BASE_URL, api);
         //请求参数
-        UserVO userVO = UserVO.builder().name("h2t").id(11L).build();
+        UserVO userVO = UserVO.builder().name("h2t").id(22L).build();
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                 JSONObject.toJSONString(userVO));
         Request request = new Request.Builder()
@@ -69,7 +69,7 @@ public class OkhttpClientTest {
 
     @Test
     public void testDelete() throws IOException {
-        String api = "/api/user/7";
+        String api = "/api/user/22";
         String url = String.format("%s%s", BASE_URL, api);
         //请求参数
         Request request = new Request.Builder()
