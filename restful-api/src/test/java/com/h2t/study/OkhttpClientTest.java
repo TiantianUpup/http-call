@@ -20,6 +20,7 @@ import java.io.IOException;
 public class OkhttpClientTest {
     private final String BASE_URL = "http://localhost:8082";
     private OkHttpClient client = new OkHttpClient();
+
     long start;
 
     @Before
@@ -116,5 +117,29 @@ public class OkhttpClientTest {
 //        for (FilesPO filesPO : filesPOS) {
 //            System.out.println(filesPO);
 //        }
+    }
+
+    @Test
+    public void testCancelSysnc() throws IOException {
+        String api = "/api/files/1";
+        String url = String.format("%s%s", BASE_URL, api);
+        Request request = new Request.Builder()
+                .url(url)
+                .get()  //默认为GET请求，可以不写
+                .build();
+        final Call call = client.newCall(request);
+        Response response = call.execute();
+        long start = System.currentTimeMillis();
+        //测试连接的取消
+        while (true) {
+            //1分钟获取不到结果就取消请求
+            if (System.currentTimeMillis() - start > 1000) {
+                call.cancel();
+                System.out.println("task canceled");
+                break;
+            }
+        }
+
+        System.out.println(response.body());
     }
 }

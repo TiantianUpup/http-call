@@ -114,7 +114,19 @@ public class HttpClientTest {
         String api = "/api/files/1";
         String url = String.format("%s%s", BASE_URL, api);
         HttpGet httpGet = new HttpGet(url);
+        //测试连接的取消
+
+        long begin = System.currentTimeMillis();
         CloseableHttpResponse response = httpClient.execute(httpGet);
+        while (true) {
+            if (System.currentTimeMillis() - begin > 1000) {
+                httpGet.releaseConnection();
+                System.out.println("task canceled");
+                break;
+            }
+        }
+
         System.out.println(EntityUtils.toString(response.getEntity()));
     }
+
 }

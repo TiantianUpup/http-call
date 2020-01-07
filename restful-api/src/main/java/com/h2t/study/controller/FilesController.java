@@ -33,13 +33,17 @@ public class FilesController {
             e.printStackTrace();
         }
 
-        System.out.println(targetFile.getAbsolutePath());
         filesService.saveFiles(FilesVO.builder().name(multipartFile.getOriginalFilename()).savePath(targetFile.getAbsolutePath()).userId(userId).build());
         return ResponseUtil.success();
     }
 
     @GetMapping("/{userId}")
     public Object listFilesPO(@PathVariable Long userId) {
+        try {
+            Thread.sleep(8 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return ResponseUtil.success(filesService.listFilesPO(userId));
     }
 }

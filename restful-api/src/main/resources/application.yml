@@ -12,3 +12,4 @@ mybatis:
   type-aliases-package: com.h2t.study.po
   configuration:
     mapUnderscoreToCamelCase: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
