@@ -3,6 +3,7 @@ package com.h2t.study;
 import com.alibaba.fastjson.JSONObject;
 import com.h2t.study.vo.UserVO;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -29,6 +30,9 @@ import java.io.IOException;
 public class HttpClientTest {
     private final String BASE_URL = "http://localhost:8082";
     private CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    private RequestConfig requestConfig = RequestConfig.custom()
+            .setSocketTimeout(60 * 1000)
+            .setConnectTimeout(60 * 1000).build();
 
     long start;
 
@@ -136,13 +140,14 @@ public class HttpClientTest {
         String api = "/api/files/1";
         String url = String.format("%s%s", BASE_URL, api);
         HttpGet httpGet = new HttpGet(url);
+        httpGet.setConfig(requestConfig);  //设置超时时间
         //测试连接的取消
 
         long begin = System.currentTimeMillis();
         CloseableHttpResponse response = httpClient.execute(httpGet);
         while (true) {
             if (System.currentTimeMillis() - begin > 1000) {
-                httpGet.releaseConnection();
+                httpGet.abort();
                 System.out.println("task canceled");
                 break;
             }
