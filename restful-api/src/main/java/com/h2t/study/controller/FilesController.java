@@ -39,11 +39,11 @@ public class FilesController {
 
     @GetMapping("/{userId}")
     public Object listFilesPO(@PathVariable Long userId) {
-        try {
-            Thread.sleep(8 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(8 * 1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return ResponseUtil.success(filesService.listFilesPO(userId));
     }
 }
