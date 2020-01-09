@@ -1,6 +1,7 @@
 package com.h2t.study;
 
 import com.alibaba.fastjson.JSONObject;
+import com.h2t.study.interceptor.NetCacheInterceptor;
 import com.h2t.study.vo.UserVO;
 import okhttp3.*;
 import org.junit.After;
@@ -25,8 +26,14 @@ public class OkhttpClientTest {
 //            .readTimeout(60, TimeUnit.SECONDS)//设置读取超时时间
 //            .build();
 
-
+    //带有缓存的client
+    int cacheSize = 10 * 1024 * 1024; // 10 MiB
+    //起始时间
     long start;
+    private OkHttpClient cacheClient = new OkHttpClient.Builder()
+            .cache(new Cache(new File("G:\\java工程\\http-call\\cache"), cacheSize))
+            .addNetworkInterceptor(new NetCacheInterceptor())
+            .build();
 
     @Before
     public void setUp() {
@@ -145,6 +152,22 @@ public class OkhttpClientTest {
             }
         }
 
+        System.out.println(response.body().string());
+    }
+
+    /**
+     * 缓存测试
+     */
+    @Test
+    public void testCache() throws IOException {
+        String api = "/api/files/1";
+        String url = String.format("%s%s", BASE_URL, api);
+        Request request = new Request.Builder()
+                .url(url)
+                .get()  //默认为GET请求，可以不写
+                .build();
+        final Call call = cacheClient.newCall(request);
+        Response response = call.execute();
         System.out.println(response.body().string());
     }
 }
